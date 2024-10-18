@@ -4,7 +4,7 @@ import 'dart:math';
 import 'package:google_api_headers/google_api_headers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_google_places/flutter_google_places.dart';
-import 'package:google_maps_webservice/places.dart';
+import 'package:google_maps_webservice_ex/places.dart';
 
 const kGoogleApiKey = "API_KEY";
 
@@ -139,8 +139,8 @@ Future<void> displayPrediction(Prediction? p, BuildContext context) async {
     );
     PlacesDetailsResponse detail =
         await _places.getDetailsByPlaceId(p.placeId!);
-    final lat = detail.result.geometry!.location.lat;
-    final lng = detail.result.geometry!.location.lng;
+    final lat = detail.result!.geometry!.location.lat;
+    final lng = detail.result!.geometry!.location.lng;
 
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text("${p.description} - $lat/$lng")),
@@ -171,7 +171,7 @@ class _CustomSearchScaffoldState extends PlacesAutocompleteState {
     final appBar = AppBar(title: const AppBarPlacesAutoCompleteTextField());
     final body = PlacesAutocompleteResult(
       onTap: (p) {
-        displayPrediction(p, context);
+        displayPrediction(p as Prediction?, context);
       },
       logo: Row(
         children: const [FlutterLogo()],
